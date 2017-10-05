@@ -44,7 +44,7 @@ def make(pairs_file='pairs.txt',
     validation_p_file = open(pairs_file[0:-4] + '-validation.txt', 'w')
     validation_np_file = open(no_pairs_file[0:-4] + '-validation.txt', 'w')
     for i in xrange(n_validation):
-        if i%100000 == 0:
+        if i % 100000 == 0:
             print i
         validation_p_file.write(p_file.next())
         validation_np_file.write(np_file.next())

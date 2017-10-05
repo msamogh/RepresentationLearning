@@ -60,7 +60,6 @@ class abstractProcessor(object):
         """Abstract"""
         raise NotImplementedError("Method process_all_batches is not implemented in this class.")
 
-
 class PairProcessor(abstractProcessor):
     def __init__(self, pairs_filename='pairs.txt', no_pairs_filename='no_pairs.txt', docfreq_filename='docfreqs.npy',
                  w2v_filename='minimal', no_words=20, embedding_dim=400, batch_size=100):
@@ -80,15 +79,20 @@ class PairProcessor(abstractProcessor):
         self.y = np.zeros((batch_size), dtype=theano.config.floatX)
         self.z = np.zeros((batch_size), dtype=theano.config.floatX)
 
-        f = open(self.docfreq_filename)
+        f = open(self.docfreq_filename, 'rb')
         self.docfreqs = np.load(f)
         f.close()
+
+
+        self.docfreqs = map(int, self.docfreqs)        
 
         if isinstance(w2v_filename, basestring):
             self.w = w2v()
             self.w.load_minimal(self.w2v_filename)
         else:
             self.w = w2v_filename
+
+        print len(self.w.model.vocab)
 
     def begin_of_new_epoch(self):
         try:
@@ -117,6 +121,7 @@ class PairProcessor(abstractProcessor):
             nB = [0]*self.no_words
 
             for k in xrange(self.no_words):
+                print self.w.model.vocab[pairA[k]].index
                 dA[k] = self.docfreqs[self.w.model.vocab[pairA[k]].index]
                 dB[k] = self.docfreqs[self.w.model.vocab[pairB[k]].index]
                 nA[k] = self.docfreqs[self.w.model.vocab[no_pairA[k]].index]
@@ -213,7 +218,7 @@ class unsortedPairProcessor(PairProcessor):
             self.z[i+1] = 1.0
 
 class lengthPairProcessor(PairProcessor):
-    def __init__(self, pairs_filename='pairs.txt', no_pairs_filename='no_pairs.txt', docfreq_filename='docfreqs.npy',
+    def __init__(self, pairs_filename='../data/pairs.txt', no_pairs_filename='../data/no_pairs.txt', docfreq_filename='../data/docfreqs.npy',
                  w2v_filename='minimal', no_words=30, embedding_dim=400, batch_size=100):
         ## no_words is the maximum number of words allowed
         super(lengthPairProcessor, self).__init__(pairs_filename, no_pairs_filename,
@@ -228,15 +233,23 @@ class lengthPairProcessor(PairProcessor):
             pair = self.pairs_file.next().split(';')
             no_pair = self.no_pairs_file.next().split(';')
 
+            print pair[0].split()
+            print 'hello' in self.w.model
+            print [self.w.exists_word(k) for k in pair[0].split()]
+            
+
             pairA = [k for k in pair[0].split() if self.w.exists_word(k)]
             pairB = [k for k in pair[1].split() if self.w.exists_word(k)]
             no_pairA = [k for k in no_pair[0].split() if self.w.exists_word(k)]
             no_pairB = [k for k in no_pair[1].split() if self.w.exists_word(k)]
 
-            dA = [0]*len(pairA)
-            dB = [0]*len(pairB)
-            nA = [0]*len(no_pairA)
-            nB = [0]*len(no_pairB)
+            dA = [0] * len(pairA)
+            dB = [0] * len(pairB)
+            nA = [0] * len(no_pairA)
+            nB = [0] * len(no_pairB)
+
+            print len(pairA)
+            raw_input('>>')
 
             for k in xrange(len(pairA)):
                 dA[k] = self.docfreqs[self.w.model.vocab[pairA[k]].index]
@@ -246,6 +259,10 @@ class lengthPairProcessor(PairProcessor):
                 nA[k] = self.docfreqs[self.w.model.vocab[no_pairA[k]].index]
             for k in xrange(len(no_pairB)):
                 nB[k] = self.docfreqs[self.w.model.vocab[no_pairB[k]].index]
+
+            print len(dA)
+            print len(pairA)
+            raw_input('>>>')
 
             _, pairA = zip(*sorted(zip(dA, pairA)))
             _, pairB = zip(*sorted(zip(dB, pairB)))

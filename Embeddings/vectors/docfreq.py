@@ -69,4 +69,4 @@ def translate(original_w2v='original_w2v', new_w2v='new_w2v', from_docfreqs='fro
 
 
 if __name__ == '__main__':
-    calculate(corpus='../data/enwiki.txt', w2v_minimal_model='../data/minimal', output_file='../data/docfreq.dump')
+    calculate(corpus='../data/all_data.txt', w2v_minimal_model='../data/minimal')

@@ -46,10 +46,10 @@ class w2v():
     def save_minimal(self, filename):
         if self.model is not None:
             logging.log(0, 'Saving w2v minimal model...')
-            f = open(filename + '.1.npy', 'wb')
+            f = open('../data/syn0', 'wb')
             np.save(f, self.model.syn0)
             f.close()
-            f = open(filename + '.2.dump', 'wb')
+            f = open('../data/vocab', 'wb')
             cPickle.dump(self.model.vocab, f, cPickle.HIGHEST_PROTOCOL)
             f.close()
             logging.log(0, 'Done saving w2v minimal model')
@@ -64,11 +64,11 @@ class w2v():
         logging.log(0, 'Done loading w2v model.')
     def load_minimal(self, filename, size=400, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
         logging.info('Loading w2v minimal model...')
-        f = open(filename + '.1.npy', 'rb')
+        f = open('../data/syn0', 'rb')
         self.model = gensim.models.Word2Vec(sentences=None, size=size, window=window, sample=sample, workers=workers, min_count=min_count, negative=negative, hs=0)
         self.model.syn0 = np.load(f)
         f.close()
-        f = open(filename + '.2.dump', 'rb')
+        f = open('../data/vocab', 'rb')
         self.model.vocab = cPickle.load(f)
         f.close()
         logging.info('Done loading w2v minimal model.')

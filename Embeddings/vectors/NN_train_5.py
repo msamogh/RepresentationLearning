@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 NO_DATA = 30000
 BATCH_SIZE = 100
 EMBEDDING_DIM = 400
-WORDS = 35  #i.e. max number of words
+WORDS = 28  #i.e. max number of words
 EPOCHS = 1000
 LEARNING_RATE = 0.0000000003
 MOMENTUM = 0.9
@@ -64,9 +64,9 @@ class NN5():
         self.params.extend(self.model1.params)
 
     def run(self, epochs=EPOCHS, learning_rate=LEARNING_RATE, regularization=REGULARIZATION, momentum=MOMENTUM):
-        processor = NN_process.lengthPairProcessor('../data/tweets/pairs/sets/tweet-pairs-train.txt',
-                                             '../data/tweets/pairs/sets/tweet-no-pairs-train.txt',
-                                  '../data/wiki/model/docfreq.npy', '../data/wiki/model/minimal', WORDS, EMBEDDING_DIM, BATCH_SIZE)
+        processor = NN_process.lengthPairProcessor('../data/pairs-train.txt',
+                                             '../data/no-pairs-train.txt',
+                                  'docfreq.npy', '../data/model.pickle', WORDS, EMBEDDING_DIM, BATCH_SIZE)
         train_x1 = theano.shared(value=processor.x1, name='train_x1', borrow=False)
         train_x2 = theano.shared(value=processor.x2, name='train_x2', borrow=False)
         train_l1 = theano.shared(value=processor.l1, name='train_l1', borrow=False)
