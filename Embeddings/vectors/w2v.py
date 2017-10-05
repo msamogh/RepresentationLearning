@@ -31,7 +31,7 @@ class dataIterator():
 
 class w2v():
     def __init__(self):
-        self.model = None
+        self.model = cPickle.load(open('../data/model.pickle', 'rb'))
     def train(self, folder='.', size=400, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
         data = dataIterator(folder)
         self.model = gensim.models.Word2Vec(data, size=size, window=window, sample=sample, workers=workers, min_count=min_count, negative=negative, hs=0)

@@ -83,7 +83,6 @@ class PairProcessor(abstractProcessor):
         self.docfreqs = np.load(f)
         f.close()
 
-
         self.docfreqs = map(int, self.docfreqs)        
 
         if isinstance(w2v_filename, basestring):
@@ -93,6 +92,7 @@ class PairProcessor(abstractProcessor):
             self.w = w2v_filename
 
         print len(self.w.model.vocab)
+        
 
     def begin_of_new_epoch(self):
         try:
