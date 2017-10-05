@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 
 NO_DATA = 30000
 BATCH_SIZE = 100
-EMBEDDING_DIM = 400
+EMBEDDING_DIM = 100
 WORDS = 28  #i.e. max number of words
 EPOCHS = 1000
 LEARNING_RATE = 0.0000000003

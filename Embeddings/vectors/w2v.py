@@ -32,7 +32,7 @@ class dataIterator():
 class w2v():
     def __init__(self):
         self.model = cPickle.load(open('../data/model.pickle', 'rb'))
-    def train(self, folder='.', size=400, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
+    def train(self, folder='.', size=100, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
         data = dataIterator(folder)
         self.model = gensim.models.Word2Vec(data, size=size, window=window, sample=sample, workers=workers, min_count=min_count, negative=negative, hs=0)
     def save(self, filename):
@@ -62,7 +62,7 @@ class w2v():
         else:
             self.model = gensim.models.Word2Vec.load(filename)
         logging.log(0, 'Done loading w2v model.')
-    def load_minimal(self, filename, size=400, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
+    def load_minimal(self, filename, size=100, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
         logging.info('Loading w2v minimal model...')
         f = open('../data/syn0', 'rb')
         #self.model = gensim.models.Word2Vec(sentences=None, size=size, window=window, sample=sample, workers=workers, min_count=min_count, negative=negative, hs=0)

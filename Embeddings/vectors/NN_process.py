@@ -248,8 +248,6 @@ class lengthPairProcessor(PairProcessor):
             nA = [0] * len(no_pairA)
             nB = [0] * len(no_pairB)
 
-            print len(pairA)
-            raw_input('>>')
 
             for k in xrange(len(pairA)):
                 dA[k] = self.docfreqs[self.w.model.vocab[pairA[k]].index]
@@ -262,7 +260,9 @@ class lengthPairProcessor(PairProcessor):
 
             print len(dA)
             print len(pairA)
-            raw_input('>>>')
+            
+            if len(dA) == 0: # Probably German text
+                continue
 
             _, pairA = zip(*sorted(zip(dA, pairA)))
             _, pairB = zip(*sorted(zip(dB, pairB)))
