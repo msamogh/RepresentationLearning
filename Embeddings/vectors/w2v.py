@@ -65,7 +65,7 @@ class w2v():
     def load_minimal(self, filename, size=400, window=5, sample=1e-4, workers=4, min_count=5, negative=10):
         logging.info('Loading w2v minimal model...')
         f = open('../data/syn0', 'rb')
-        self.model = gensim.models.Word2Vec(sentences=None, size=size, window=window, sample=sample, workers=workers, min_count=min_count, negative=negative, hs=0)
+        #self.model = gensim.models.Word2Vec(sentences=None, size=size, window=window, sample=sample, workers=workers, min_count=min_count, negative=negative, hs=0)
         self.model.syn0 = np.load(f)
         f.close()
         f = open('../data/vocab', 'rb')
